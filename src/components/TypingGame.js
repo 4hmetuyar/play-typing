@@ -31,8 +31,21 @@ const TypingGame = ({ onEndGame }) => {
     
     // JavaScript/TypeScript highlighting
     if (language.toLowerCase().includes('javascript') || language.toLowerCase().includes('typescript') || language.toLowerCase().includes('react')) {
-      // Keywords
+      // React-specific keywords
+      if (language.toLowerCase().includes('react')) {
+        highlighted = highlighted.replace(/\b(useState|useEffect|useContext|useReducer|useMemo|useCallback|useRef|useImperativeHandle|useLayoutEffect|useDebugValue|React|Component|PureComponent|Fragment|Suspense|lazy|memo|forwardRef|createContext|createElement|cloneElement|isValidElement|Children|PropTypes|defaultProps|displayName|key|ref|props|state|setState|componentDidMount|componentDidUpdate|componentWillUnmount|render|constructor|super|bind|map|filter|reduce|find|forEach|some|every|includes|indexOf|slice|splice|push|pop|shift|unshift|join|split|replace|match|test|exec|toString|valueOf|hasOwnProperty|isPrototypeOf|propertyIsEnumerable|toLocaleString)\b/g, '<span class="syntax-keyword">$1</span>');
+      }
+      
+      // General JavaScript keywords
       highlighted = highlighted.replace(/\b(const|let|var|function|if|else|for|while|return|import|export|from|class|extends|async|await|try|catch|finally|throw|new|this|super|static|public|private|protected|interface|type|enum|namespace|module|declare|as|is|in|of|typeof|instanceof|void|null|undefined|true|false|break|continue|switch|case|default|do|with|debugger)\b/g, '<span class="syntax-keyword">$1</span>');
+      
+      // JSX elements (React only)
+      if (language.toLowerCase().includes('react')) {
+        highlighted = highlighted.replace(/(<[A-Z][a-zA-Z0-9]*)/g, '<span class="syntax-class">$1</span>');
+        highlighted = highlighted.replace(/(<\/[A-Z][a-zA-Z0-9]*>)/g, '<span class="syntax-class">$1</span>');
+        highlighted = highlighted.replace(/(<[a-z][a-zA-Z0-9]*)/g, '<span class="syntax-selector">$1</span>');
+        highlighted = highlighted.replace(/(<\/[a-z][a-zA-Z0-9]*>)/g, '<span class="syntax-selector">$1</span>');
+      }
       
       // Strings
       highlighted = highlighted.replace(/(["'`])((?:\\.|(?!\1)[^\\])*?)\1/g, '<span class="syntax-string">$1$2$1</span>');
@@ -113,55 +126,31 @@ const TypingGame = ({ onEndGame }) => {
       return '';
     }
 
-    // Önce syntax highlighting uygula
-    const syntaxHighlighted = syntaxHighlight(targetCode, currentCode?.language || '');
-    
     if (!userInput) {
-      return syntaxHighlighted;
+      // Sadece temiz kod göster
+      return targetCode.replace(/ /g, '&nbsp;').replace(/\n/g, '<br>');
     }
 
-    // HTML'den plain text'e çevir
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = syntaxHighlighted;
-    const plainText = tempDiv.textContent || tempDiv.innerText || '';
+    // Basit karakter bazlı highlighting
+    let result = '';
+    const inputLength = Math.min(userInput.length, targetCode.length);
     
-    // Sadece yazılan kısım kadar işle
-    const inputLength = Math.min(userInput.length, plainText.length);
-    
-    // Basit yaklaşım: Syntax highlighting'i koru, sadece yazılan kısımları işaretle
-    let result = syntaxHighlighted;
-    let plainIndex = 0;
-    let inputIndex = 0;
-    
-    // HTML'i karakter karakter işle
-    for (let i = 0; i < result.length && inputIndex < inputLength; i++) {
-      if (result[i] === '<') {
-        // HTML tag - atla
-        const tagEnd = result.indexOf('>', i);
-        if (tagEnd !== -1) {
-          i = tagEnd;
+    for (let i = 0; i < targetCode.length; i++) {
+      const targetChar = targetCode[i];
+      const inputChar = userInput[i] || '';
+      
+      if (i < inputLength) {
+        if (targetChar === inputChar) {
+          // Doğru karakter - yeşil
+          result += `<span class="char-correct">${targetChar === ' ' ? '&nbsp;' : targetChar}</span>`;
+        } else {
+          // Yanlış karakter - kırmızı
+          result += `<span class="char-incorrect">${targetChar === ' ' ? '&nbsp;' : targetChar}</span>`;
         }
-        continue;
+      } else {
+        // Henüz yazılmamış karakter - normal
+        result += targetChar === ' ' ? '&nbsp;' : targetChar;
       }
-      
-      // Normal karakter
-      const targetChar = plainText[plainIndex];
-      const inputChar = userInput[inputIndex];
-      
-      if (targetChar === inputChar) {
-        // Doğru karakter - yeşil overlay
-        const char = targetChar === ' ' ? '&nbsp;' : targetChar;
-        result = result.substring(0, i) + `<span class="char-correct">${char}</span>` + result.substring(i + 1);
-        i += `<span class="char-correct">${char}</span>`.length - 1;
-      } else if (targetChar !== ' ' && targetChar !== '\n' && targetChar !== '\t') {
-        // Yanlış karakter - kırmızı overlay
-        const char = targetChar === ' ' ? '&nbsp;' : targetChar;
-        result = result.substring(0, i) + `<span class="char-incorrect">${char}</span>` + result.substring(i + 1);
-        i += `<span class="char-incorrect">${char}</span>`.length - 1;
-      }
-      
-      plainIndex++;
-      inputIndex++;
     }
 
     return result;
@@ -578,7 +567,7 @@ const TypingGame = ({ onEndGame }) => {
             ref={codeDisplayRef}
             className="code-display"
             dangerouslySetInnerHTML={{
-              __html: highlightedCode || syntaxHighlight(currentCode.code, currentCode.language)
+              __html: highlightedCode || currentCode.code.replace(/ /g, '&nbsp;').replace(/\n/g, '<br>')
             }}
           />
 
