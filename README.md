@@ -28,6 +28,9 @@ Geliştiriciler için interaktif kod yazma pratiği uygulaması. VSCode benzeri 
 - **🤖 AI Kod Örnekleri**: GitHub'dan güncel kod örnekleri
 - **💾 Cache Sistemi**: localStorage ile hızlı yükleme
 - **🔄 Fallback Sistemi**: API hatası durumunda mock data
+- **🔊 Ses Sistemi**: Hata durumunda sesli geri bildirim
+- **📢 Toast Bildirimleri**: Oyun olayları için bildirimler
+- **🎵 Web Audio API**: Programatik ses üretimi
 
 ## 🛠️ Teknolojiler
 
@@ -40,6 +43,9 @@ Geliştiriciler için interaktif kod yazma pratiği uygulaması. VSCode benzeri 
 - **AI Integration**: GitHub API + Mock Data fallback
 - **Caching**: localStorage with 24-hour expiration
 - **API Management**: Rate limit handling, error recovery
+- **Audio**: Web Audio API for sound generation
+- **Notifications**: react-hot-toast for user feedback
+- **Icons**: react-feather for consistent iconography
 
 ## 📦 Kurulum
 
@@ -344,10 +350,21 @@ Bu proje MIT lisansı altında lisanslanmıştır.
 - [x] Cache durumu gösterimi
 - [x] Rate limit hata yönetimi
 
+### ✅ V5.0 - Ses Sistemi ve Bildirimler
+- [x] Web Audio API entegrasyonu
+- [x] Hata durumunda sesli geri bildirim
+- [x] react-hot-toast bildirim sistemi
+- [x] Oyun olayları için toast mesajları
+- [x] Ses açma/kapama toggle butonu
+- [x] AudioContext hata yönetimi
+- [x] Programatik ses üretimi
+
 ### 🏆 Teknik Başarılar
-- **747 satır** TypingGame.js bileşeni
+- **813 satır** TypingGame.js bileşeni
 - **437 satır** kod örnekleri veritabanı
 - **380 satır** GitHub API servisi
+- **167 satır** ses sistemi utilities
+- **55 satır** App.js (toast entegrasyonu)
 - **8 programlama dili** desteği
 - **3 responsive breakpoint**
 - **20+ state değişkeni**
