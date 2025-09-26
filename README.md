@@ -61,9 +61,27 @@ npm start
 4. Tarayıcınızda `http://localhost:3000` adresini açın.
 
 ### 🌐 GitHub Pages Deploy
+
+#### Otomatik Deploy (GitHub Actions)
+Her commit'de otomatik olarak deploy edilir:
+```bash
+git add .
+git commit -m "feat: yeni özellik"
+git push origin main
+# GitHub Actions otomatik deploy yapacak
+```
+
+#### Manuel Deploy
 ```bash
 npm run deploy
 ```
+
+#### GitHub Actions Workflow
+- **Trigger**: main branch'e push
+- **Runner**: Ubuntu Latest
+- **Node.js**: 18.x
+- **Cache**: npm dependencies
+- **Deploy**: GitHub Pages
 
 ## 🎮 Nasıl Oynanır
 
@@ -140,6 +158,23 @@ Her dil için VSCode benzeri renklendirme:
 - **Variables**: `let variableName` (Kırmızı)
 
 ## 🔧 Geliştirme
+
+### 🚀 GitHub Actions Kurulumu
+
+#### 1. GitHub Repository Ayarları
+1. GitHub repository'nize gidin
+2. **Settings** > **Pages** sekmesine gidin
+3. **Source** olarak **GitHub Actions** seçin
+4. Kaydedin
+
+#### 2. Otomatik Deploy
+- Her `main` branch'e push'da otomatik deploy
+- Workflow dosyası: `.github/workflows/deploy.yml`
+- Deploy durumu: **Actions** sekmesinde görülebilir
+
+#### 3. Manuel Deploy
+- GitHub Actions > Deploy to GitHub Pages > Run workflow
+- Veya `npm run deploy` komutu
 
 ### 📁 Proje Yapısı
 ```
