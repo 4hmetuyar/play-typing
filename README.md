@@ -2,6 +2,12 @@
 
 Geliştiriciler için interaktif kod yazma pratiği uygulaması. VSCode benzeri syntax highlighting, dil seçimi, süre ayarlama ve gerçek zamanlı geri bildirim ile kod yazma hızınızı artırın!
 
+## 🌐 Canlı Demo
+
+**🚀 [https://ahmetuyar.github.io/play-typing](https://ahmetuyar.github.io/play-typing)**
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Play%20Typing-green?style=for-the-badge&logo=github)](https://ahmetuyar.github.io/play-typing)
+
 ## 🚀 Özellikler
 
 ### 🎯 Temel Özellikler
@@ -31,9 +37,14 @@ Geliştiriciler için interaktif kod yazma pratiği uygulaması. VSCode benzeri 
 
 ## 📦 Kurulum
 
+### 🚀 Hızlı Başlangıç
+**Canlı demo için:** [https://ahmetuyar.github.io/play-typing](https://ahmetuyar.github.io/play-typing)
+
+### 💻 Yerel Kurulum
+
 1. Projeyi klonlayın:
 ```bash
-git clone <repository-url>
+git clone https://github.com/ahmetuyar/play-typing.git
 cd play-typing
 ```
 
@@ -48,6 +59,11 @@ npm start
 ```
 
 4. Tarayıcınızda `http://localhost:3000` adresini açın.
+
+### 🌐 GitHub Pages Deploy
+```bash
+npm run deploy
+```
 
 ## 🎮 Nasıl Oynanır
 
@@ -255,6 +271,8 @@ Geliştirici kendini geliştirmek için oluşturulmuş bu proje, kod yazma hız�
 - **Desteklenen Diller**: 8
 - **Responsive Breakpoint**: 3
 - **Özellik Sayısı**: 20+
+- **Canlı URL**: [https://ahmetuyar.github.io/play-typing](https://ahmetuyar.github.io/play-typing)
+- **GitHub Repository**: [https://github.com/ahmetuyar/play-typing](https://github.com/ahmetuyar/play-typing)
 
 ---
 

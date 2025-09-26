@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/play-typing/static/css/main.cb877493.css",
+    "main.js": "/play-typing/static/js/main.f442fbeb.js",
+    "index.html": "/play-typing/index.html",
+    "main.cb877493.css.map": "/play-typing/static/css/main.cb877493.css.map",
+    "main.f442fbeb.js.map": "/play-typing/static/js/main.f442fbeb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cb877493.css",
+    "static/js/main.f442fbeb.js"
+  ]
+}
