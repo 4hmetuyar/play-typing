@@ -203,6 +203,229 @@ const MyComponent = () => {
     </div>
   );
 };`
+  },
+  {
+    id: 7,
+    language: 'C#',
+    title: 'Class and Properties',
+    code: `using System;
+using System.Collections.Generic;
+
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string Email { get; set; }
+    
+    public Person(string name, int age, string email)
+    {
+        Name = name;
+        Age = age;
+        Email = email;
+    }
+    
+    public virtual void DisplayInfo()
+    {
+        Console.WriteLine($"Name: {Name}, Age: {Age}, Email: {Email}");
+    }
+}
+
+public class Student : Person
+{
+    public string StudentId { get; set; }
+    public List<string> Courses { get; set; }
+    
+    public Student(string name, int age, string email, string studentId) 
+        : base(name, age, email)
+    {
+        StudentId = studentId;
+        Courses = new List<string>();
+    }
+    
+    public override void DisplayInfo()
+    {
+        base.DisplayInfo();
+        Console.WriteLine($"Student ID: {StudentId}");
+    }
+    
+    public void AddCourse(string courseName)
+    {
+        Courses.Add(courseName);
+    }
+}`
+  },
+  {
+    id: 8,
+    language: 'C#',
+    title: 'LINQ Queries',
+    code: `using System;
+using System.Linq;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        var numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        
+        // Even numbers
+        var evenNumbers = numbers.Where(n => n % 2 == 0).ToList();
+        
+        // Numbers greater than 5
+        var greaterThanFive = numbers.Where(n => n > 5).ToList();
+        
+        // Sum of all numbers
+        var sum = numbers.Sum();
+        
+        // Average
+        var average = numbers.Average();
+        
+        // Group by even/odd
+        var grouped = numbers.GroupBy(n => n % 2 == 0 ? "Even" : "Odd")
+                            .ToDictionary(g => g.Key, g => g.ToList());
+        
+        Console.WriteLine($"Even numbers: {string.Join(", ", evenNumbers)}");
+        Console.WriteLine($"Sum: {sum}, Average: {average}");
+        
+        foreach (var group in grouped)
+        {
+            Console.WriteLine($"{group.Key}: {string.Join(", ", group.Value)}");
+        }
+    }
+}`
+  },
+  {
+    id: 9,
+    language: 'TypeScript',
+    title: 'Interface and Generics',
+    code: `interface User {
+  id: number;
+  name: string;
+  email: string;
+  isActive: boolean;
+}
+
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message: string;
+}
+
+class UserService {
+  private users: User[] = [];
+  
+  addUser(user: User): void {
+    this.users.push(user);
+  }
+  
+  getUserById(id: number): User | undefined {
+    return this.users.find(user => user.id === id);
+  }
+  
+  getAllUsers(): User[] {
+    return [...this.users];
+  }
+  
+  async fetchUser(id: number): Promise<ApiResponse<User>> {
+    try {
+      const response = await fetch(\`/api/users/\${id}\`);
+      const data = await response.json();
+      
+      return {
+        data,
+        status: response.status,
+        message: 'Success'
+      };
+    } catch (error) {
+      return {
+        data: {} as User,
+        status: 500,
+        message: 'Error fetching user'
+      };
+    }
+  }
+}
+
+// Usage
+const userService = new UserService();
+userService.addUser({
+  id: 1,
+  name: 'John Doe',
+  email: 'john@example.com',
+  isActive: true
+});`
+  },
+  {
+    id: 10,
+    language: 'Vue.js',
+    title: 'Composition API',
+    code: `<template>
+  <div class="counter">
+    <h2>Count: {{ count }}</h2>
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+    <button @click="reset">Reset</button>
+    
+    <div class="history">
+      <h3>History:</h3>
+      <ul>
+        <li v-for="(item, index) in history" :key="index">
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, watch } from 'vue'
+
+const count = ref(0)
+const history = ref([])
+
+const increment = () => {
+  count.value++
+  history.value.push(\`Incremented to \${count.value}\`)
+}
+
+const decrement = () => {
+  count.value--
+  history.value.push(\`Decremented to \${count.value}\`)
+}
+
+const reset = () => {
+  count.value = 0
+  history.value.push('Reset to 0')
+}
+
+// Computed property
+const doubleCount = computed(() => count.value * 2)
+
+// Watcher
+watch(count, (newValue, oldValue) => {
+  console.log(\`Count changed from \${oldValue} to \${newValue}\`)
+})
+</script>
+
+<style scoped>
+.counter {
+  text-align: center;
+  padding: 2rem;
+}
+
+button {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.history {
+  margin-top: 2rem;
+  text-align: left;
+}
+</style>`
   }
 ];
 
