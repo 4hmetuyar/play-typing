@@ -2,6 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getRandomCodeExample, codeExamples } from '../data/codeExamples';
 import { fetchTrendingCodeExamples, fetchCodeExamplesByLanguage, fetchRandomCodeExample } from '../services/githubService';
 import { 
+  playCorrectSound, 
+  playIncorrectSound, 
+  playWordCompleteSound, 
+  playGameStartSound, 
+  playGameEndSound 
+} from '../utils/soundUtils';
+import toast from 'react-hot-toast';
+import { 
   Code, 
   Clock, 
   Cpu, 
@@ -11,7 +19,9 @@ import {
   Play, 
   Pause, 
   Square,
-  RotateCcw
+  RotateCcw,
+  Volume2,
+  VolumeX
 } from 'react-feather';
 
 const TypingGame = ({ onEndGame }) => {
@@ -35,6 +45,8 @@ const TypingGame = ({ onEndGame }) => {
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [useAICodes, setUseAICodes] = useState(false);
   const [cacheStatus, setCacheStatus] = useState('');
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [lastInputLength, setLastInputLength] = useState(0);
 
   const intervalRef = useRef(null);
   const textareaRef = useRef(null);
@@ -235,6 +247,9 @@ const TypingGame = ({ onEndGame }) => {
       setLastCorrectWords(0);
     }
     
+    // Oyun başlama toast'ı
+    toast.success('Oyun başladı! İyi şanslar! 🎮');
+    
     // Timer başlat
     intervalRef.current = setInterval(() => {
       setTimeLeft(prev => {
@@ -295,6 +310,7 @@ const TypingGame = ({ onEndGame }) => {
 
   // Oyunu bitir
   const endGame = () => {
+    toast.success(`Oyun bitti! Skorunuz: ${score} 🏆`);
     stopGame();
     onEndGame();
   };
@@ -305,6 +321,20 @@ const TypingGame = ({ onEndGame }) => {
 
     const input = e.target.value;
     setUserInput(input);
+    
+    // Ses sistemi - sadece hata olduğunda çal
+    if (soundEnabled && input.length > lastInputLength) {
+      // Yeni karakter eklendi
+      const currentChar = input[input.length - 1];
+      const targetChar = currentCode?.code[input.length - 1];
+      
+      if (targetChar && currentChar !== targetChar) {
+        // Sadece yanlış karakter için ses çal
+        playIncorrectSound();
+      }
+    }
+    
+    setLastInputLength(input.length);
 
     // Input syntax highlighting uygula
     if (textareaRef.current && currentCode) {
@@ -313,7 +343,7 @@ const TypingGame = ({ onEndGame }) => {
       // Şimdilik basit tutuyoruz, gelecekte geliştirilebilir
     }
 
-    // Auto-scroll: Cursor pozisyonuna göre scroll
+    // Auto-scroll: Cursor pozisyonuna göre yavaş scroll
     setTimeout(() => {
       if (textareaRef.current) {
         const textarea = textareaRef.current;
@@ -323,17 +353,22 @@ const TypingGame = ({ onEndGame }) => {
         const linesFromTop = (textarea.value.substring(0, cursorPosition).match(/\n/g) || []).length;
         const cursorTop = linesFromTop * lineHeight;
         
-        // Cursor görünür alanda değilse scroll yap
-        if (cursorTop > textarea.scrollTop + textareaHeight - lineHeight) {
-          textarea.scrollTop = cursorTop - textareaHeight + lineHeight * 2;
-        } else if (cursorTop < textarea.scrollTop) {
-          textarea.scrollTop = cursorTop - lineHeight;
+        // Cursor görünür alanda değilse yavaş scroll yap
+        if (cursorTop > textarea.scrollTop + textareaHeight - lineHeight * 2) {
+          // Daha yavaş scroll için daha küçük adımlar
+          const targetScroll = cursorTop - textareaHeight + lineHeight * 3;
+          const currentScroll = textarea.scrollTop;
+          const scrollStep = (targetScroll - currentScroll) * 0.3; // %30 adım
+          textarea.scrollTop = currentScroll + scrollStep;
+        } else if (cursorTop < textarea.scrollTop + lineHeight) {
+          // Yukarı scroll da yavaş olsun
+          const targetScroll = cursorTop - lineHeight;
+          const currentScroll = textarea.scrollTop;
+          const scrollStep = (targetScroll - currentScroll) * 0.3; // %30 adım
+          textarea.scrollTop = currentScroll + scrollStep;
         }
       }
-      
-      // Code display auto-scroll
-      scrollCodeDisplay(input);
-    }, 0);
+    }, 50); // Biraz daha yavaş için timeout artırıldı
 
     if (!currentCode) return;
 
@@ -369,6 +404,11 @@ const TypingGame = ({ onEndGame }) => {
           incorrect: prev.incorrect + 1,
           total: prev.total + 1
         }));
+        
+        // Hata yapıldığında ses çal
+        if (soundEnabled) {
+          playIncorrectSound();
+        }
       }
     }
 
@@ -380,6 +420,9 @@ const TypingGame = ({ onEndGame }) => {
     if (isCorrect) {
       setFeedback('correct');
       setScore(prev => prev + 200); // Tam kod için bonus puan
+      
+      // Kod tamamlandı toast'ı
+      toast.success('Mükemmel! Kod tamamlandı! 🎉');
       
       // 2 saniye sonra yeni kod yükle
       setTimeout(() => {
@@ -477,25 +520,6 @@ const TypingGame = ({ onEndGame }) => {
     }
   };
 
-  // Code display auto-scroll
-  const scrollCodeDisplay = (userInput) => {
-    if (!currentCode || !codeDisplayRef.current) return;
-    
-    const codeDisplay = codeDisplayRef.current;
-    const inputLength = userInput.length;
-    const targetCode = currentCode.code;
-    
-    // Kullanıcının yazdığı kısma göre scroll pozisyonu hesapla
-    const progress = Math.min(inputLength / targetCode.length, 1);
-    const maxScroll = codeDisplay.scrollHeight - codeDisplay.clientHeight;
-    const targetScroll = maxScroll * progress;
-    
-    // Smooth scroll
-    codeDisplay.scrollTo({
-      top: targetScroll,
-      behavior: 'smooth'
-    });
-  };
 
   // AI kod örneklerini yükle
   const loadAICodeExamples = async () => {
@@ -514,12 +538,15 @@ const TypingGame = ({ onEndGame }) => {
         const now = Date.now();
         const age = Math.floor((now - data.timestamp) / (1000 * 60)); // dakika cinsinden
         setCacheStatus(`Cache'den (${age} dk önce)`);
+        toast.success(`AI kod örnekleri cache'den yüklendi! 🤖`);
       } else {
         setCacheStatus('Yeni yüklendi');
+        toast.success(`AI kod örnekleri yüklendi! 🤖`);
       }
     } catch (error) {
       console.error('Error loading AI code examples:', error);
       setCacheStatus('Hata oluştu');
+      toast.error('AI kod örnekleri yüklenirken hata oluştu!');
     } finally {
       setIsLoadingAI(false);
     }
@@ -693,6 +720,15 @@ const TypingGame = ({ onEndGame }) => {
                 </div>
               </div>
               <div className="stats-row">
+                <div className="sound-toggle">
+                  <button
+                    className={`sound-button ${soundEnabled ? 'enabled' : 'disabled'}`}
+                    onClick={() => setSoundEnabled(!soundEnabled)}
+                    title={soundEnabled ? 'Sesi Kapat' : 'Sesi Aç'}
+                  >
+                    {soundEnabled ? <Volume2 size={12} /> : <VolumeX size={12} />}
+                  </button>
+                </div>
                 <div className="stat-item">
                   <Award size={12} className="stat-icon" />
                   <span className="stat-value">{score}</span>
