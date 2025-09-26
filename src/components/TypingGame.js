@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getRandomCodeExample, codeExamples } from '../data/codeExamples';
+import { fetchTrendingCodeExamples, fetchCodeExamplesByLanguage, fetchRandomCodeExample } from '../services/githubService';
 
 const TypingGame = ({ onEndGame }) => {
   const [currentCode, setCurrentCode] = useState(null);
@@ -18,6 +19,10 @@ const TypingGame = ({ onEndGame }) => {
   const [selectedLanguage, setSelectedLanguage] = useState('all');
   const [selectedDuration, setSelectedDuration] = useState(60);
   const [codeDisplayScroll, setCodeDisplayScroll] = useState(0);
+  const [aiCodeExamples, setAiCodeExamples] = useState([]);
+  const [isLoadingAI, setIsLoadingAI] = useState(false);
+  const [useAICodes, setUseAICodes] = useState(false);
+  const [cacheStatus, setCacheStatus] = useState('');
 
   const intervalRef = useRef(null);
   const textareaRef = useRef(null);
@@ -227,7 +232,17 @@ const TypingGame = ({ onEndGame }) => {
 
   // Yeni kod yükle
   const loadNewCode = () => {
-    const newCode = getCodeByLanguage(selectedLanguage);
+    let newCode;
+    
+    if (useAICodes && aiCodeExamples.length > 0) {
+      // AI kod örneklerinden rastgele seç
+      const randomIndex = Math.floor(Math.random() * aiCodeExamples.length);
+      newCode = aiCodeExamples[randomIndex];
+    } else {
+      // Statik kod örneklerinden seç
+      newCode = getCodeByLanguage(selectedLanguage);
+    }
+    
     setCurrentCode(newCode);
     setUserInput('');
     setFeedback('');
@@ -457,6 +472,34 @@ const TypingGame = ({ onEndGame }) => {
     });
   };
 
+  // AI kod örneklerini yükle
+  const loadAICodeExamples = async () => {
+    setIsLoadingAI(true);
+    setCacheStatus('Yükleniyor...');
+    
+    try {
+      const examples = await fetchTrendingCodeExamples(selectedLanguage === 'all' ? 'all' : selectedLanguage, 10);
+      setAiCodeExamples(examples);
+      
+      // Cache durumunu kontrol et
+      const cacheKey = selectedLanguage === 'all' ? 'all' : selectedLanguage;
+      const cached = localStorage.getItem(`ai_code_examples_${cacheKey}`);
+      if (cached) {
+        const data = JSON.parse(cached);
+        const now = Date.now();
+        const age = Math.floor((now - data.timestamp) / (1000 * 60)); // dakika cinsinden
+        setCacheStatus(`Cache'den (${age} dk önce)`);
+      } else {
+        setCacheStatus('Yeni yüklendi');
+      }
+    } catch (error) {
+      console.error('Error loading AI code examples:', error);
+      setCacheStatus('Hata oluştu');
+    } finally {
+      setIsLoadingAI(false);
+    }
+  };
+
   // Component mount olduğunda sadece temizlik yap
   useEffect(() => {
     return () => {
@@ -483,6 +526,20 @@ const TypingGame = ({ onEndGame }) => {
       textareaRef.current.focus();
     }
   }, [isGameActive, currentCode]);
+
+  // AI kod örneklerini yükle
+  useEffect(() => {
+    if (useAICodes) {
+      loadAICodeExamples();
+    }
+  }, [useAICodes, selectedLanguage]);
+
+  // AI kod örnekleri yüklendiğinde yeni kod seç
+  useEffect(() => {
+    if (useAICodes && aiCodeExamples.length > 0 && !isGameActive) {
+      loadNewCode();
+    }
+  }, [aiCodeExamples, useAICodes, isGameActive]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -558,6 +615,34 @@ const TypingGame = ({ onEndGame }) => {
               <option value={600}>10 Dakika</option>
             </select>
           </div>
+
+          <div className="ai-selector">
+            <div className="selector-icon">🤖</div>
+            <div className="ai-toggle">
+              <label className="ai-toggle-label">
+                <input
+                  type="checkbox"
+                  checked={useAICodes}
+                  onChange={(e) => {
+                    setUseAICodes(e.target.checked);
+                    if (e.target.checked && !isGameActive) {
+                      // AI kodları yüklendikten sonra yeni kod seçilecek
+                    } else if (!e.target.checked && !isGameActive) {
+                      // Statik kodlara geri dön
+                      loadNewCode();
+                    }
+                  }}
+                  disabled={isGameActive}
+                />
+                <span className="ai-toggle-text">
+                  {isLoadingAI ? 'Yükleniyor...' : 'AI Kod Örnekleri'}
+                  {cacheStatus && !isLoadingAI && (
+                    <span className="cache-status"> ({cacheStatus})</span>
+                  )}
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -569,8 +654,16 @@ const TypingGame = ({ onEndGame }) => {
                 <div className="code-language">
                   <span className="language-icon">🔤</span>
                   <span className="language-name">{currentCode.language}</span>
+                  {currentCode.isAIGenerated && (
+                    <span className="ai-badge">🤖 AI</span>
+                  )}
                 </div>
-                <div className="code-title">{currentCode.title}</div>
+                <div className="code-title">
+                  {currentCode.title}
+                  {currentCode.source && (
+                    <span className="code-source"> - {currentCode.source}</span>
+                  )}
+                </div>
               </div>
               <div className="stats-row">
                 <div className="stat-item">
