@@ -62,13 +62,13 @@ npm start
 
 ### 🌐 GitHub Pages Deploy
 
-#### Otomatik Deploy (GitHub Actions)
-Her commit'de otomatik olarak deploy edilir:
+#### Otomatik Build (GitHub Actions)
+Her commit'de otomatik olarak build edilir:
 ```bash
 git add .
 git commit -m "feat: yeni özellik"
 git push origin main
-# GitHub Actions otomatik deploy yapacak
+# GitHub Actions otomatik build yapacak
 ```
 
 #### Manuel Deploy
@@ -76,12 +76,16 @@ git push origin main
 npm run deploy
 ```
 
-#### GitHub Actions Workflow
-- **Trigger**: main branch'e push
-- **Runner**: Ubuntu Latest
-- **Node.js**: 18.x
-- **Cache**: npm dependencies
-- **Deploy**: GitHub Pages
+#### GitHub Pages Ayarları
+1. **GitHub Repository** > **Settings** > **Pages**
+2. **Source**: **Deploy from a branch**
+3. **Branch**: **gh-pages** seçin
+4. **Folder**: **/ (root)** seçin
+5. **Save**
+
+#### Build Artifacts
+- **GitHub Actions** > **Build for GitHub Pages** > **build-files**
+- Build dosyalarını indirip manuel olarak deploy edebilirsiniz
 
 ## 🎮 Nasıl Oynanır
 
