@@ -1,6 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getRandomCodeExample, codeExamples } from '../data/codeExamples';
 import { fetchTrendingCodeExamples, fetchCodeExamplesByLanguage, fetchRandomCodeExample } from '../services/githubService';
+import { 
+  Code, 
+  Clock, 
+  Cpu, 
+  Award, 
+  Check, 
+  X, 
+  Play, 
+  Pause, 
+  Square,
+  RotateCcw
+} from 'react-feather';
 
 const TypingGame = ({ onEndGame }) => {
   const [currentCode, setCurrentCode] = useState(null);
@@ -200,15 +212,28 @@ const TypingGame = ({ onEndGame }) => {
 
   // Oyunu başlat
   const startGame = () => {
-    const newCode = getCodeByLanguage(selectedLanguage);
-    setCurrentCode(newCode);
-    setUserInput('');
-    setTimeLeft(selectedDuration);
-    setIsGameActive(true);
-    setFeedback('');
-    setScore(0);
-    setGameStats({ correct: 0, incorrect: 0, total: 0 });
-    setLastCorrectWords(0);
+    // Eğer AI kod örnekleri seçiliyse ve mevcut kod varsa, aynı koddan devam et
+    if (useAICodes && currentCode && currentCode.isAIGenerated) {
+      // Aynı koddan devam et, yeni kod yükleme
+      setUserInput('');
+      setTimeLeft(selectedDuration);
+      setIsGameActive(true);
+      setFeedback('');
+      setScore(0);
+      setGameStats({ correct: 0, incorrect: 0, total: 0 });
+      setLastCorrectWords(0);
+    } else {
+      // Normal akış: yeni kod yükle
+      const newCode = getCodeByLanguage(selectedLanguage);
+      setCurrentCode(newCode);
+      setUserInput('');
+      setTimeLeft(selectedDuration);
+      setIsGameActive(true);
+      setFeedback('');
+      setScore(0);
+      setGameStats({ correct: 0, incorrect: 0, total: 0 });
+      setLastCorrectWords(0);
+    }
     
     // Timer başlat
     intervalRef.current = setInterval(() => {
@@ -568,7 +593,6 @@ const TypingGame = ({ onEndGame }) => {
           <div className="game-subtitle">Hızınızı test edin ve kodlama becerilerinizi geliştirin</div>
         </div>
         <div className="timer-section">
-          <div className="timer-icon">⏱️</div>
           <div className="timer">
             {formatTime(timeLeft)}
           </div>
@@ -579,7 +603,7 @@ const TypingGame = ({ onEndGame }) => {
       <div className="game-settings">
         <div className="settings-card">
           <div className="language-selector">
-            <div className="selector-icon">💻</div>
+            <Code size={14} className="selector-icon" />
             <select
               id="language-select"
               className="language-select"
@@ -599,7 +623,7 @@ const TypingGame = ({ onEndGame }) => {
           </div>
 
           <div className="duration-selector">
-            <div className="selector-icon">⏰</div>
+            <Clock size={16} className="selector-icon" />
             <select
               id="duration-select"
               className="duration-select"
@@ -617,7 +641,7 @@ const TypingGame = ({ onEndGame }) => {
           </div>
 
           <div className="ai-selector">
-            <div className="selector-icon">🤖</div>
+            <Cpu size={16} className="selector-icon" />
             <div className="ai-toggle">
               <label className="ai-toggle-label">
                 <input
@@ -652,10 +676,13 @@ const TypingGame = ({ onEndGame }) => {
             <div className="code-info-content">
               <div className="code-header">
                 <div className="code-language">
-                  <span className="language-icon">🔤</span>
+                  <Code size={12} className="language-icon" />
                   <span className="language-name">{currentCode.language}</span>
                   {currentCode.isAIGenerated && (
-                    <span className="ai-badge">🤖 AI</span>
+                    <span className="ai-badge">
+                      <Cpu size={10} style={{marginRight: '4px'}} />
+                      AI
+                    </span>
                   )}
                 </div>
                 <div className="code-title">
@@ -667,17 +694,17 @@ const TypingGame = ({ onEndGame }) => {
               </div>
               <div className="stats-row">
                 <div className="stat-item">
-                  <span className="stat-icon">🏆</span>
+                  <Award size={12} className="stat-icon" />
                   <span className="stat-value">{score}</span>
                   <span className="stat-label">Skor</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-icon">✅</span>
+                  <Check size={12} className="stat-icon" />
                   <span className="stat-value">{gameStats.correct}</span>
                   <span className="stat-label">Doğru</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-icon">❌</span>
+                  <X size={12} className="stat-icon" />
                   <span className="stat-value">{gameStats.incorrect}</span>
                   <span className="stat-label">Hata</span>
                 </div>
@@ -720,15 +747,18 @@ const TypingGame = ({ onEndGame }) => {
       <div className="game-controls">
       {!isGameActive ? (
         <button className="control-button primary" onClick={startGame}>
+          <Play size={14} style={{marginRight: '6px'}} />
           {currentCode ? 'Oyunu Başlat' : 'İlk Kodu Yükle'}
         </button>
       ) : (
         <button className="control-button secondary" onClick={stopGame}>
+          <Pause size={14} style={{marginRight: '6px'}} />
           Duraklat
         </button>
       )}
         
         <button className="control-button danger" onClick={endGame}>
+          <Square size={14} style={{marginRight: '6px'}} />
           Oyunu Bitir
         </button>
       </div>
