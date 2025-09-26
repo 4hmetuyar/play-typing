@@ -49,6 +49,27 @@ const LandingPage = ({ onStartGame }) => {
       gradient: 'linear-gradient(135deg, #ff9ff3, #e91e63)'
     },
     {
+      icon: '🤖',
+      title: 'AI Kod Örnekleri',
+      description: 'GitHub\'dan güncel ve popüler kod örnekleri. AI destekli kod analizi ile gerçek projelerden örnekler.',
+      color: '#a8e6cf',
+      gradient: 'linear-gradient(135deg, #a8e6cf, #4caf50)'
+    },
+    {
+      icon: '🔊',
+      title: 'Sesli Geri Bildirim',
+      description: 'Hata yaptığınızda sesli uyarı alın. Web Audio API ile profesyonel ses deneyimi.',
+      color: '#ffd93d',
+      gradient: 'linear-gradient(135deg, #ffd93d, #ff9800)'
+    },
+    {
+      icon: '📢',
+      title: 'Akıllı Bildirimler',
+      description: 'Oyun olayları için toast bildirimleri. Başarı ve hata durumlarında anlık bilgilendirme.',
+      color: '#b4a7d6',
+      gradient: 'linear-gradient(135deg, #b4a7d6, #9c27b0)'
+    },
+    {
       icon: '⌨️',
       title: 'Tab Desteği',
       description: 'Tab ve Shift+Tab ile indentation yapın. Gerçek kod editörü deneyimi yaşayın.',
@@ -140,8 +161,9 @@ const LandingPage = ({ onStartGame }) => {
             <p className="hero-subtitle">
               Geliştiriciler için interaktif kod yazma pratiği uygulaması. 
               <br />
-              <span className="highlight">Hızınızı artırın</span>, 
-              <span className="highlight">kodlama becerilerinizi geliştirin</span>!
+              <span className="highlight">AI destekli kod örnekleri</span>, 
+              <span className="highlight">sesli geri bildirim</span> ve 
+              <span className="highlight"> akıllı bildirimler</span> ile!
             </p>
             
             <div className="hero-stats">
@@ -150,12 +172,16 @@ const LandingPage = ({ onStartGame }) => {
                 <span className="stat-label">Programlama Dili</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">1000+</span>
-                <span className="stat-label">Kod Satırı</span>
+                <span className="stat-number">🤖</span>
+                <span className="stat-label">AI Kod Örnekleri</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">∞</span>
-                <span className="stat-label">Pratik Yapma</span>
+                <span className="stat-number">🔊</span>
+                <span className="stat-label">Sesli Geri Bildirim</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">📢</span>
+                <span className="stat-label">Akıllı Bildirimler</span>
               </div>
             </div>
 
@@ -198,7 +224,7 @@ const LandingPage = ({ onStartGame }) => {
           <h2 className="testimonial-title">Geliştiriciler Ne Diyor?</h2>
           <div className="testimonial-content">
             <div className="testimonial-text">
-              "Bu uygulama sayesinde kod yazma hızım %40 arttı. Gerçek proje ortamına çok daha hazır hissediyorum!"
+              "AI kod örnekleri ve sesli geri bildirim sayesinde kod yazma hızım %40 arttı. Gerçek proje ortamına çok daha hazır hissediyorum!"
             </div>
             <div className="testimonial-author">
               <div className="author-avatar">👨‍💻</div>
