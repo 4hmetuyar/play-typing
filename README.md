@@ -271,7 +271,7 @@ Geliştirici kendini geliştirmek için oluşturulmuş bu proje, kod yazma hız�
 - **Desteklenen Diller**: 8
 - **Responsive Breakpoint**: 3
 - **Özellik Sayısı**: 20+
-- **Canlı URL**: [https://4hmetuyar.github.io/play-typing/](https://4hmetuyar.github.io/play-typing/g)
+- **Canlı URL**: [https://4hmetuyar.github.io/play-typing](https://4hmetuyar.github.io/play-typing)
 - **GitHub Repository**: [https://github.com/4hmetuyar/play-typing](https://github.com/4hmetuyar/play-typing)
 
 ---
