@@ -1,0 +1,476 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+/* Landing Page Styles */
+.landing-page {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+}
+
+.hero-section {
+  margin-bottom: 3rem;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #fff, #e0e7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.feature-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.feature-description {
+  font-size: 1rem;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.start-button {
+  background: linear-gradient(45deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+}
+
+.start-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.4);
+}
+
+.start-button:active {
+  transform: translateY(0);
+}
+
+/* Typing Game Styles */
+.typing-game {
+  width: 100%;
+  max-width: 1000px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.game-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.timer {
+  background: linear-gradient(45deg, #ef4444, #dc2626);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: center;
+}
+
+.code-display {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 2px solid #374151;
+  max-height: 300px;
+  min-height: 200px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.input-area {
+  margin-bottom: 2rem;
+  flex-shrink: 0;
+}
+
+.input-label {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.code-input {
+  width: 100%;
+  min-height: 200px;
+  padding: 1.5rem;
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.code-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.feedback {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.feedback.correct {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.feedback.incorrect {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.feedback.neutral {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.game-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.control-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.control-button.primary {
+  background: #4f46e5;
+  color: white;
+}
+
+.control-button.primary:hover {
+  background: #4338ca;
+}
+
+.control-button.secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.control-button.secondary:hover {
+  background: #4b5563;
+}
+
+.control-button.danger {
+  background: #ef4444;
+  color: white;
+}
+
+.control-button.danger:hover {
+  background: #dc2626;
+}
+
+/* Typing Game Additional Styles */
+.code-info {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #4f46e5;
+}
+
+.code-info h3 {
+  color: #1f2937;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.code-info p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.game-instructions {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.game-instructions p {
+  margin: 0.25rem 0;
+}
+
+/* Code highlighting for better readability */
+.code-display {
+  position: relative;
+  overflow: hidden;
+}
+
+.code-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #4f46e5, transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* Karakter highlight stilleri */
+.char-correct {
+  background-color: #10b981;
+  color: white;
+  padding: 2px 1px;
+  border-radius: 2px;
+  font-weight: 600;
+  animation: correctPulse 0.3s ease;
+}
+
+.char-incorrect {
+  background-color: #ef4444;
+  color: white;
+  padding: 2px 1px;
+  border-radius: 2px;
+  font-weight: 600;
+  animation: incorrectShake 0.3s ease;
+  text-decoration: underline;
+  text-decoration-color: #dc2626;
+  text-decoration-thickness: 2px;
+}
+
+.char-pending {
+  color: #9ca3af;
+  opacity: 0.7;
+}
+
+@keyframes correctPulse {
+  0% { 
+    background-color: #10b981;
+    transform: scale(1);
+  }
+  50% { 
+    background-color: #059669;
+    transform: scale(1.05);
+  }
+  100% { 
+    background-color: #10b981;
+    transform: scale(1);
+  }
+}
+
+@keyframes incorrectShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Input validation styles */
+.code-input.correct {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+.code-input.incorrect {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .features {
+    grid-template-columns: 1fr;
+  }
+  
+  .game-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .typing-game {
+    margin: 1rem;
+    padding: 1.5rem;
+    max-height: 95vh;
+  }
+  
+  .code-display {
+    font-size: 0.9rem;
+    padding: 1.5rem;
+  }
+  
+  .game-controls {
+    flex-direction: column;
+  }
+  
+  .control-button {
+    width: 100%;
+  }
+  
+  .code-info {
+    text-align: center;
+  }
+  
+  .code-info h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .typing-game {
+    margin: 0.5rem;
+    padding: 1rem;
+    max-height: 98vh;
+  }
+  
+  .code-display {
+    font-size: 0.8rem;
+    padding: 1rem;
+  }
+  
+  .code-input {
+    font-size: 0.9rem;
+    min-height: 150px;
+  }
+  
+  .timer {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
