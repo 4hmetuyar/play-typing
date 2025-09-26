@@ -506,61 +506,90 @@ const TypingGame = ({ onEndGame }) => {
   return (
     <div className="typing-game">
       <div className="game-header">
-        <h1 className="game-title">Kod Yazma Pratiği</h1>
-        <div className="timer">
-          {formatTime(timeLeft)}
+        <div className="game-title-section">
+          <h1 className="game-title">Kod Yazma Pratiği</h1>
+          <div className="game-subtitle">Hızınızı test edin ve kodlama becerilerinizi geliştirin</div>
+        </div>
+        <div className="timer-section">
+          <div className="timer-icon">⏱️</div>
+          <div className="timer">
+            {formatTime(timeLeft)}
+          </div>
+          <div className="timer-label">Kalan Süre</div>
         </div>
       </div>
 
       <div className="game-settings">
-        <div className="language-selector">
-          <label htmlFor="language-select" className="language-label">
-            Programlama Dili Seçin:
-          </label>
-          <select
-            id="language-select"
-            className="language-select"
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-            disabled={isGameActive}
-          >
-            <option value="all">Tüm Diller (Rastgele)</option>
-            <option value="JavaScript">JavaScript</option>
-            <option value="React">React</option>
-            <option value="Python">Python</option>
-            <option value="CSS">CSS</option>
-            <option value="C#">C#</option>
-            <option value="TypeScript">TypeScript</option>
-            <option value="Vue.js">Vue.js</option>
-          </select>
-        </div>
+        <div className="settings-card">
+          <div className="language-selector">
+            <div className="selector-icon">💻</div>
+            <select
+              id="language-select"
+              className="language-select"
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value)}
+              disabled={isGameActive}
+            >
+              <option value="all">Tüm Diller (Rastgele)</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="React">React</option>
+              <option value="Python">Python</option>
+              <option value="CSS">CSS</option>
+              <option value="C#">C#</option>
+              <option value="TypeScript">TypeScript</option>
+              <option value="Vue.js">Vue.js</option>
+            </select>
+          </div>
 
-        <div className="duration-selector">
-          <label htmlFor="duration-select" className="duration-label">
-            Süre Seçin:
-          </label>
-          <select
-            id="duration-select"
-            className="duration-select"
-            value={selectedDuration}
-            onChange={(e) => setSelectedDuration(parseInt(e.target.value))}
-            disabled={isGameActive}
-          >
-            <option value={30}>30 Saniye</option>
-            <option value={60}>1 Dakika</option>
-            <option value={120}>2 Dakika</option>
-            <option value={180}>3 Dakika</option>
-            <option value={300}>5 Dakika</option>
-            <option value={600}>10 Dakika</option>
-          </select>
+          <div className="duration-selector">
+            <div className="selector-icon">⏰</div>
+            <select
+              id="duration-select"
+              className="duration-select"
+              value={selectedDuration}
+              onChange={(e) => setSelectedDuration(parseInt(e.target.value))}
+              disabled={isGameActive}
+            >
+              <option value={30}>30 Saniye</option>
+              <option value={60}>1 Dakika</option>
+              <option value={120}>2 Dakika</option>
+              <option value={180}>3 Dakika</option>
+              <option value={300}>5 Dakika</option>
+              <option value={600}>10 Dakika</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {currentCode && (
         <>
           <div className="code-info">
-            <h3>{currentCode.language} - {currentCode.title}</h3>
-            <p>Skor: {score} | Doğru: {gameStats.correct} | Hata: {gameStats.incorrect}</p>
+            <div className="code-info-content">
+              <div className="code-header">
+                <div className="code-language">
+                  <span className="language-icon">🔤</span>
+                  <span className="language-name">{currentCode.language}</span>
+                </div>
+                <div className="code-title">{currentCode.title}</div>
+              </div>
+              <div className="stats-row">
+                <div className="stat-item">
+                  <span className="stat-icon">🏆</span>
+                  <span className="stat-value">{score}</span>
+                  <span className="stat-label">Skor</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-icon">✅</span>
+                  <span className="stat-value">{gameStats.correct}</span>
+                  <span className="stat-label">Doğru</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-icon">❌</span>
+                  <span className="stat-value">{gameStats.incorrect}</span>
+                  <span className="stat-label">Hata</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div 
