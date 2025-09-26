@@ -11,7 +11,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://ahmetuyar.github.io/play-typing",
+  "homepage": "https://4hmetuyar.github.io/play-typing/",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

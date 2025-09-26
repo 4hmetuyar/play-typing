@@ -4,9 +4,9 @@ Geliştiriciler için interaktif kod yazma pratiği uygulaması. VSCode benzeri 
 
 ## 🌐 Canlı Demo
 
-**🚀 [https://ahmetuyar.github.io/play-typing](https://ahmetuyar.github.io/play-typing)**
+**🚀 [https://4hmetuyar.github.io/play-typing/](https://4hmetuyar.github.io/play-typing/)**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Play%20Typing-green?style=for-the-badge&logo=github)](https://ahmetuyar.github.io/play-typing)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Play%20Typing-green?style=for-the-badge&logo=github)](https://4hmetuyar.github.io/play-typing/)
 
 ## 🚀 Özellikler
 
@@ -38,13 +38,13 @@ Geliştiriciler için interaktif kod yazma pratiği uygulaması. VSCode benzeri 
 ## 📦 Kurulum
 
 ### 🚀 Hızlı Başlangıç
-**Canlı demo için:** [https://ahmetuyar.github.io/play-typing](https://ahmetuyar.github.io/play-typing)
+**Canlı demo için:** [https://4hmetuyar.github.io/play-typing/](https://4hmetuyar.github.io/play-typing/)
 
 ### 💻 Yerel Kurulum
 
 1. Projeyi klonlayın:
 ```bash
-git clone https://github.com/ahmetuyar/play-typing.git
+git clone https://github.com/4hmetuyar/play-typing.git
 cd play-typing
 ```
 
@@ -271,8 +271,8 @@ Geliştirici kendini geliştirmek için oluşturulmuş bu proje, kod yazma hız�
 - **Desteklenen Diller**: 8
 - **Responsive Breakpoint**: 3
 - **Özellik Sayısı**: 20+
-- **Canlı URL**: [https://ahmetuyar.github.io/play-typing](https://ahmetuyar.github.io/play-typing)
-- **GitHub Repository**: [https://github.com/ahmetuyar/play-typing](https://github.com/ahmetuyar/play-typing)
+- **Canlı URL**: [https://4hmetuyar.github.io/play-typing/](https://4hmetuyar.github.io/play-typing/g)
+- **GitHub Repository**: [https://github.com/4hmetuyar/play-typing](https://github.com/4hmetuyar/play-typing)
 
 ---
 
